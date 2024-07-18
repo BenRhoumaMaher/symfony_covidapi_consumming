@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  COVID-19 Figures in the United States
+{% endblock %}
+
+{% block body %}
+  <div class="album py-5" id="usa">
+    <div class="container">
+      <h1 class="mb-5"><span class="text-danger">COVID-19 Figures in the United States</span></h1>
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Number of Current Hospitalizations</h5>
+              <p class="card-text">Number of people currently hospitalized</p>
+            </div>
+            <h3 class="card-footer bg-warning text-dark mx-2 rounded-pill">{{ data[0].hospitalizedCurrently }}</h3>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Number of People in ICU</h5>
+              <p class="card-text">Number of people currently in intensive care</p>
+            </div>
+            <h3 class="card-footer bg-warning text-dark mx-2 rounded-pill">{{ data[0].inIcuCurrently }}</h3>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Total Deaths 😥</h5>
+              <p class="card-text">Number of deaths since the start of the pandemic</p>
+            </div>
+            <h3 class="card-footer bg-dark text-light mx-2 rounded-pill">{{ data[0].death }}</h3>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Total Recovered</h5>
+              <p class="card-text">Number of recoveries since the start of the pandemic</p>
+            </div>
+            <h3 class="card-footer bg-success text-dark mx-2 rounded-pill">{{ data[0].recovered|default('No Data Available') }}</h3>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Number of Confirmed Cases</h5>
+              <p class="card-text">Number of confirmed cases since the start of the pandemic</p>
+            </div>
+            <h3 class="card-footer bg-info text-dark mx-2 rounded-pill">{{ data[0].positive }}</h3>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">On Ventilator Currently</h5>
+              <p class="card-text">
+                On Ventilator :<br /><span class="text-info">{{ data[0].onVentilatorCurrently }}</span>
+              </p>
+            </div>
+            <h3 class="card-footer bg-secondary text-grey mx-2 rounded-pill">{{ data[0].dateChecked }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="album py-5" id="department">
+    <div class="container">
+      <h1 class="mb-5"><span class="text-danger">COVID-19 Figures by Department</span></h1>
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for department in departments %}
+          <div class="col">
+            <div class="card shadow-lg h-100 m-2">
+              <div class="card-body">
+                <h5 class="card-title text-success">{{ department.state }}</h5>
+                <p class="card-text">
+                  Currently Hospitalized<span class="badge bg-secondary bg-warning">{{ department.hospitalizedCurrently }}</span>
+                </p>
+                <p class="card-text">
+                  Currently in ICU<span class="badge bg-secondary bg-info">{{ department.inIcuCurrently | default('No Data Available') }}</span>
+                </p>
+                <a href="{{ path('department', { department: department.state | lower }) }}" class="btn btn-secondary bg-dark" role="button" aria-pressed="true">More Figures</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
